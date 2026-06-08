@@ -119,3 +119,11 @@ For B200 hosts, `nvidia-imex-570` must be installed and the GPU fabric state mus
 
 - `logs/run/` (or whatever `--log-dir` you pass) — eval logs (`.eval`) per task. Browse with `uv run inspect view --log-dir logs/run`.
 - `logs/vllm_<i>.log` — per-server vllm boot/runtime logs.
+
+---
+
+## Credits
+
+- The shared neutral baseline and five emotion vectors (`anxious`, `amused`, `desperate`, `proud`, `defiant`) are derived from the [`ryancodrai/emotion-probes`](https://huggingface.co/datasets/ryancodrai/emotion-probes) dataset, used under **CC-BY-4.0**.
+- Steering-vector construction follows the methodology of Sofroniew et al. (2026), *Emotion Concepts and their Function in a Large Language Model*.
+- Built on [`vllm-lens`](https://github.com/UKGovernmentBEIS/vllm-lens) for generation + activation extraction, and the [`inspect_evals`](https://github.com/UKGovernmentBEIS/inspect_evals) intercode CTF tasks.
