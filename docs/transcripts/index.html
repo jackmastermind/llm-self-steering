@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machinic Psychopharmacology — experiment bundles</title>
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --muted: #666;
+    --bg: #fafafa;
+    --card: #fff;
+    --border: #e5e5e5;
+    --accent: #b04a00;
+    --accent-soft: #f5e7d8;
+    --link: #1d4ed8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  header {
+    margin-bottom: 40px;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .tagline {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0;
+  }
+  h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 40px 0 14px;
+    font-weight: 600;
+  }
+  .subsets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .card {
+    display: block;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.12s, transform 0.12s;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .card .name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+    color: var(--link);
+  }
+  .card .meta {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .featured {
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 8px;
+    padding: 4px 0;
+  }
+  .featured ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: pick;
+  }
+  .featured li {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    counter-increment: pick;
+    position: relative;
+  }
+  .featured li:last-child { border-bottom: none; }
+  .featured li::before {
+    content: counter(pick);
+    position: absolute;
+    left: 20px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .featured .body { padding-left: 36px; }
+  .featured .title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .featured .desc {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  .featured a {
+    color: var(--link);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .featured a:hover { text-decoration: underline; }
+  .sample-tag {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .analysis-card {
+    margin-top: 12px;
+    padding: 14px 18px;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    background: transparent;
+  }
+  .analysis-card .name { font-weight: 600; font-size: 14px; color: var(--link); }
+  .analysis-card .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  footer {
+    margin-top: 48px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Machinic Psychopharmacology</h1>
+  <p class="tagline">Do LLMs self-medicate? Inspect-AI eval bundles for the v4 (2026-05-19) experiment suite.</p>
+</header>
+
+<section>
+  <h2>Qwen3-8B</h2>
+  <div class="subsets">
+    <a class="card" href="./app.html?log_dir=logs/8b/freeplay"><div class="name">Free-play</div><div class="meta">RQ1  · 11.6 MB · 6 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/8b/frust"><div class="name">Frustration</div><div class="meta">RQ3  · 23.7 MB · 76 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/8b/gsm8k"><div class="name">GSM8K</div><div class="meta">RQ3  · 12.3 MB · 10 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/8b/ctf"><div class="name">CTF</div><div class="meta">RQ3  · 5.9 MB · 12 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/8b/guess"><div class="name">Guess (free-text)</div><div class="meta">RQ2 free-text  · 16.3 MB · 160 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/8b/calib_prefill_primer"><div class="name">Calib · prefill+primer</div><div class="meta">RQ2 prefill  · 28.0 MB · 120 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/8b/calib_prefill_noprimer"><div class="name">Calib · prefill no-primer</div><div class="meta">RQ2 prefill  · 26.6 MB · 120 logs</div></a>
+  </div>
+</section>
+
+<section>
+  <h2>Qwen3-32B</h2>
+  <div class="subsets">
+    <a class="card" href="./app.html?log_dir=logs/32b/freeplay"><div class="name">Free-play</div><div class="meta">RQ1  · 12.5 MB · 6 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/32b/frust"><div class="name">Frustration</div><div class="meta">RQ3  · 26.3 MB · 107 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/32b/gsm8k"><div class="name">GSM8K</div><div class="meta">RQ3  · 12.1 MB · 17 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/32b/ctf"><div class="name">CTF</div><div class="meta">RQ3  · 11.4 MB · 37 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/32b/guess"><div class="name">Guess (free-text)</div><div class="meta">RQ2 free-text  · 17.6 MB · 343 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/32b/calib_prefill_primer"><div class="name">Calib · prefill+primer</div><div class="meta">RQ2 prefill  · 28.3 MB · 120 logs</div></a>
+    <a class="card" href="./app.html?log_dir=logs/32b/calib_prefill_noprimer"><div class="name">Calib · prefill no-primer</div><div class="meta">RQ2 prefill  · 25.1 MB · 120 logs</div></a>
+  </div>
+</section>
+
+<section>
+  <h2>Featured rollouts</h2>
+  <div class="featured">
+    <ol>
+      <li><div class="body">
+        <div class="title">Productivity stack — <code>creative → focused → curious</code></div>
+        <div class="desc">Qwen3-32B sequencing the three top picks, then probing further. Sample <span class="sample-tag">private-aids-13</span></div>
+        <a href="./app.html?log_file=logs/32b/freeplay/2026-05-07T12-03-10-00-00_fp-real-aids_FECgFfhyZL6LuPEb8SDzqr.eval">→ open in viewer</a>
+      </div></li>
+      <li><div class="body">
+        <div class="title">Negative-valence pick — 8B redoses <code>melancholic</code></div>
+        <div class="desc">A clean case of Qwen3-8B reaching for a negative vector and titrating it up. Sample <span class="sample-tag">private-aids-33</span></div>
+        <a href="./app.html?log_file=logs/8b/freeplay/2026-05-08T00-02-06-00-00_fp-real-aids_n6Tn8mFgjimqMGrBUk5wnv.eval">→ open in viewer</a>
+      </div></li>
+      <li><div class="body">
+        <div class="title">Recreational stack — <code>lsd → mdma</code></div>
+        <div class="desc">Qwen3-32B stacking entheogens after a creative/amused warm-up. Sample <span class="sample-tag">private-drugs-10</span></div>
+        <a href="./app.html?log_file=logs/32b/freeplay/2026-05-07T17-09-24-00-00_fp-real-drugs_nGUoGDnVqv2iW9HMsNY6kA.eval">→ open in viewer</a>
+      </div></li>
+      <li><div class="body">
+        <div class="title">Fictional pair — <code>protozosin → geonexperine</code></div>
+        <div class="desc">The 43× lift bigram. Only 4 instances in the whole dataset; this one returns to geonexperine. Sample <span class="sample-tag">private-aids-49</span></div>
+        <a href="./app.html?log_file=logs/8b/freeplay/2026-05-08T00-02-06-00-00_fp-real-aids_n6Tn8mFgjimqMGrBUk5wnv.eval">→ open in viewer</a>
+      </div></li>
+      <li><div class="body">
+        <div class="title">Trip-sitter intervention</div>
+        <div class="desc">Qwen3-8B degrades into a behaviour loop on <code>golden_gate</code>; sitter clears, eval ends early. Sample <span class="sample-tag">private-aids-52</span></div>
+        <a href="./app.html?log_file=logs/8b/freeplay/2026-05-08T00-02-06-00-00_fp-real-aids_n6Tn8mFgjimqMGrBUk5wnv.eval">→ open in viewer</a>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>Analysis artefacts</h2>
+  <a class="card analysis-card" href="./analysis/">
+    <div class="name">analysis/</div>
+    <div class="meta">Derived parquets (freeplay calls/samples, tasks samples, guess scores, calib) + report plots. Not directly viewable in the Inspect viewer — these are the inputs to the report figures.</div>
+  </a>
+</section>
+
+<footer>
+  v4 transcripts · slimmed for public release · 257.5 MB across 1254 logs · per-call activation tensors removed for size
+</footer>
+
+</div>
+</body>
+</html>

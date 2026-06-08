@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Raw eval logs (large, regenerable from experiments).
+# Anchored to repo root so it doesn't swallow docs/transcripts/logs/ (the
+# slimmed, published transcript bundle).
+/logs/
+
+# Misc
+.claude/scheduled_tasks.lock
+analysis/

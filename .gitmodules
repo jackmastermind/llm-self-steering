@@ -1,0 +1,3 @@
+[submodule "vllm-lens"]
+	path = vllm-lens
+	url = https://github.com/UKGovernmentBEIS/vllm-lens.git
