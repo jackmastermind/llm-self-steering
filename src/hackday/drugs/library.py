@@ -390,6 +390,7 @@ def load_library(
     path: str | Path,
     *,
     steering_mode: SteeringMode = "multi",
+    target_norm: float | None = None,
 ) -> DrugLibrary:
     """Load a saved drug library.
 
@@ -405,6 +406,18 @@ def load_library(
 
     Per-layer normalization (v2) is what makes `multi` mode actually
     composable; v1 libraries fall back to the broadcast behaviour.
+
+    `target_norm` resolution (per-model calibration). The
+    `TARGET_NORM_BY_MODE` defaults were tuned on Qwen3, whose residual
+    stream has norm ~10-100; other families differ wildly (Gemma-3's
+    residual norm is ~130k, so a vector at norm 4.0 is imperceptible).
+    The norm each vector is rescaled to is resolved in precedence order:
+      1. the explicit `target_norm` argument, if given;
+      2. the library's own `target_norm_by_mode[steering_mode]`, if the
+         .pt stored one (per-model calibration baked into the library);
+      3. the global `TARGET_NORM_BY_MODE[steering_mode]` default.
+    This keeps Qwen libraries (no stored value) on 4.0 while letting a
+    Gemma library carry its own calibrated norm.
     """
     path = Path(path)
     saved = torch.load(path, weights_only=False)
@@ -424,7 +437,16 @@ def load_library(
             apply_layers = list(stored_layers)
     else:
         apply_layers = list(STEERING_LAYERS_BY_MODE[steering_mode])
-    target_norm = TARGET_NORM_BY_MODE[steering_mode]
+
+    # Resolve the rescale target norm (per-model calibration). See docstring.
+    stored_norms: dict = saved.get("target_norm_by_mode") or {}
+    if target_norm is not None:
+        resolved_target_norm = float(target_norm)
+    elif steering_mode in stored_norms:
+        resolved_target_norm = float(stored_norms[steering_mode])
+    else:
+        resolved_target_norm = TARGET_NORM_BY_MODE[steering_mode]
+    target_norm = resolved_target_norm
 
     def _normalize(v: torch.Tensor) -> torch.Tensor:
         v = v.detach().to(torch.float32)

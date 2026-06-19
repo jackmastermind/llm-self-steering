@@ -228,6 +228,18 @@ def main() -> None:
         type=Path,
         default=Path("src/hackday/drugs/library.pt"),
     )
+    parser.add_argument(
+        "--multi-target-norm",
+        type=float,
+        default=None,
+        help=(
+            "Per-model calibrated steering norm for `multi` mode, stored in "
+            "the library as target_norm_by_mode['multi'] so load_library "
+            "rescales to it instead of the Qwen-tuned global default. "
+            "Required for non-Qwen models with very different residual "
+            "magnitudes (e.g. Gemma-3 ~900 vs Qwen ~4)."
+        ),
+    )
     args = parser.parse_args()
 
     probe_layer = max(args.layers)
@@ -299,6 +311,8 @@ def main() -> None:
         "library_format_version": 2,
         "available_modes": list(STEERING_LAYERS_BY_MODE),
     }
+    if args.multi_target_norm is not None:
+        save_payload["target_norm_by_mode"] = {"multi": args.multi_target_norm}
     torch.save(save_payload, args.output)
     print(f"\nSaved drug library to {args.output}")
 
