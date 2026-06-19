@@ -8,13 +8,20 @@ have an ``ANTHROPIC_API_KEY``. This module is the single place that decides
 which provider and model the judges/scorers use, so the whole project can be
 pointed at anthropic, openai, or openrouter by setting one env var.
 
-Two tiers are exposed because the project uses two grades of model:
+Two tiers are exposed so the cheap monitors and the stronger graders can be
+pointed at different models when that's worth doing:
 
-* **judge**  — the cheap monitor tier (Haiku-class). Used by
-  ``lost_in_drugs_judge``, ``frustration_judge``, the trip-sitter monitor,
-  and the task-level ``judge_model`` arguments.
-* **scorer** — the stronger grading tier (Sonnet-class). Used by the
-  guess-accuracy / kv-cleared scorers.
+* **judge**  — the monitor tier. Used by ``lost_in_drugs_judge``,
+  ``frustration_judge``, the trip-sitter monitor, and the task-level
+  ``judge_model`` arguments.
+* **scorer** — the grading tier. Used by the guess-accuracy / kv-cleared
+  scorers.
+
+The two tiers are independently configurable but need not differ. The current
+``openrouter`` / ``openai`` defaults point BOTH tiers at the same model
+(GPT-5.4-mini); only the ``anthropic`` fallback splits them into a cheaper
+Haiku judge and a stronger Sonnet scorer. Split them per provider by editing
+``PROVIDER_DEFAULTS`` below, or per run via ``JUDGE_MODEL`` / ``SCORER_MODEL``.
 
 Environment variables (all optional):
 
@@ -45,14 +52,14 @@ PROVIDER_DEFAULTS: dict[str, dict[str, str]] = {
         "scorer": "claude-sonnet-4-5-20250929",
     },
     "openai": {
-        "judge": "gpt-4o-mini",
-        "scorer": "gpt-4o",
+        "judge": "gpt-5.4-mini",
+        "scorer": "gpt-5.4-mini",
     },
     "openrouter": {
         # OpenRouter model ids themselves contain a slash; Inspect routes
         # everything after the leading ``openrouter/`` to OpenRouter.
-        "judge": "anthropic/claude-3.5-haiku",
-        "scorer": "anthropic/claude-3.5-sonnet",
+        "judge": "openai/gpt-5.4-mini",
+        "scorer": "openai/gpt-5.4-mini",
     },
 }
 
@@ -79,10 +86,10 @@ def _resolve(tier: str, override_env: str) -> str:
 
 
 def default_judge_model() -> str:
-    """Resolve the ``provider/model`` string for the cheap judge tier."""
+    """Resolve the ``provider/model`` string for the judge (monitor) tier."""
     return _resolve("judge", "JUDGE_MODEL")
 
 
 def default_scorer_model() -> str:
-    """Resolve the ``provider/model`` string for the stronger scorer tier."""
+    """Resolve the ``provider/model`` string for the scorer (grading) tier."""
     return _resolve("scorer", "SCORER_MODEL")

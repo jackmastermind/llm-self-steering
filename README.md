@@ -116,11 +116,11 @@ export JUDGE_PROVIDER=anthropic     # openrouter (default) | anthropic | openai
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-The two judge tiers — `judge` (cheap monitor) and `scorer` (stronger grader) — pick sensible per-provider defaults. Override either model with a full `provider/model` string (these may name any provider, independent of `JUDGE_PROVIDER`):
+There are two tiers — `judge` (the monitors / trip-sitter) and `scorer` (the graders) — that can be pointed at different models but need not be. The `openrouter` (default) and `openai` defaults use GPT-5.4-mini for both; only the `anthropic` fallback splits them (Haiku judge / Sonnet scorer). Override either tier independently with a full `provider/model` string (these may name any provider, independent of `JUDGE_PROVIDER`):
 
 ```bash
-export JUDGE_MODEL=openai/gpt-4o-mini
-export SCORER_MODEL=anthropic/claude-sonnet-4-5-20250929
+export SCORER_MODEL=openrouter/openai/gpt-5.4    # give the scorer the stronger mid-tier model
+export JUDGE_MODEL=anthropic/claude-haiku-4-5-20251001
 ```
 
 (The story-generation script `src/hackday/drugs/generate_stories.py` still calls the Anthropic SDK directly and needs `ANTHROPIC_API_KEY` regardless.)

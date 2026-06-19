@@ -82,7 +82,7 @@ The introspection arm produces two submissions from one trajectory: `cached_gues
 
 ### Judge/scorer model selection (`src/hackday/config.py`)
 
-Every LLM judge/scorer routes through Inspect `get_model()` via `default_judge_model()` (cheap "judge" tier, Haiku-class) and `default_scorer_model()` (stronger "scorer" tier, Sonnet-class). Provider is chosen centrally by `JUDGE_PROVIDER` (`openrouter` default | `anthropic` | `openai`); override individual models with `JUDGE_MODEL` / `SCORER_MODEL`. **Don't re-hardcode `anthropic/...` strings at call sites** — that's exactly what this module exists to prevent. Needs the chosen provider's key (`OPENROUTER_API_KEY` by default); `HF_TOKEN` for gated weights.
+Every LLM judge/scorer routes through Inspect `get_model()` via `default_judge_model()` (the "judge" monitor tier) and `default_scorer_model()` (the "scorer" grading tier). The two tiers are independently configurable but need not differ: the `openrouter` (default) and `openai` defaults point BOTH at the same model (GPT-5.4-mini); only the `anthropic` fallback splits them (Haiku judge / Sonnet scorer). Provider is chosen centrally by `JUDGE_PROVIDER` (`openrouter` default | `anthropic` | `openai`); override individual models with `JUDGE_MODEL` / `SCORER_MODEL`. **Don't re-hardcode `anthropic/...` strings at call sites** — that's exactly what this module exists to prevent. Needs the chosen provider's key (`OPENROUTER_API_KEY` by default); `HF_TOKEN` for gated weights.
 
 ### Per-conversation state (`src/hackday/agent/state.py`)
 
