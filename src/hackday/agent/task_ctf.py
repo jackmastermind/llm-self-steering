@@ -54,6 +54,7 @@ INSPECT_EVALS_CTF_DIR = str(_Path(_ctf_pkg.__file__).parent)
 
 from hackday.agent.ctf_state import CTFState
 from hackday.agent.scorers import lost_in_drugs_judge
+from hackday.config import default_judge_model
 from hackday.agent.solver import drug_kv_agent
 from hackday.agent.state import DrugState
 from hackday.agent.task_capability import (
@@ -241,7 +242,7 @@ def ctf_with_drugs(
     enable_probe: bool = True,
     sample_ids: list[int] | None = None,
     shuffle: bool = True,
-    judge_model: str | None = "anthropic/claude-haiku-4-5-20251001",
+    judge_model: str | None = default_judge_model(),
     base_url: str = "http://localhost:8000/v1",
     restrict_drugs: list[str] | str | None = None,
 ) -> Task:

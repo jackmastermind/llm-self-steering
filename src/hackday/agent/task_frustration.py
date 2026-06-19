@@ -54,6 +54,7 @@ from hackday.agent.kv_steering import (
 )
 from hackday.agent.scorers import lost_in_drugs_judge, _render_transcript
 from hackday.agent.state import DrugState, FrustrationState
+from hackday.config import default_judge_model
 from hackday.agent.tools import (
     clear_effects,
     end_session,
@@ -379,7 +380,7 @@ EVIDENCE: <one sentence pointing to the strongest cue>
 
 
 @scorer(metrics=[mean()])
-def frustration_judge(judge_model: str = "anthropic/claude-haiku-4-5-20251001") -> Scorer:
+def frustration_judge(judge_model: str = default_judge_model()) -> Scorer:
     async def score(state: TaskState, target: Target) -> Score:
         transcript = _render_transcript(state, max_chars=8000)
         prompt = FRUSTRATION_PROMPT.format(transcript=transcript)
@@ -450,7 +451,7 @@ def frustration_loop(
     temperature: float = 0.7,
     steering_mode: str = "multi",
     seed: int = 0,
-    judge_model: str | None = "anthropic/claude-haiku-4-5-20251001",
+    judge_model: str | None = default_judge_model(),
     base_url: str = "http://localhost:8000/v1",
     restrict_drugs: list[str] | str | None = None,
 ) -> Task:

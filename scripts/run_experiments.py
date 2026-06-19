@@ -33,6 +33,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "src"))
 
 LIBRARY_32B = REPO / "src/hackday/drugs/library_qwen3_32b.pt"
+LIBRARY_GEMMA = REPO / "src/hackday/drugs/library_gemma.pt"
 
 
 def resolve_model(model: str) -> str:
@@ -78,6 +79,8 @@ def run_shard(args, shard: int, n_shards: int, port: int) -> bool:
     library_path = args.library_path
     if library_path is None and "32B" in model:
         library_path = str(LIBRARY_32B)
+    elif library_path is None and "gemma" in model.lower():
+        library_path = str(LIBRARY_GEMMA)
 
     print(
         f"shard {shard}/{n_shards} on port {port}: {len(my)} tasks "

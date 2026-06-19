@@ -17,3 +17,6 @@ wheels/
 # Misc
 .claude/scheduled_tasks.lock
 analysis/
+
+# Locally-staged model weights (large, regenerable via HF download).
+/models/

@@ -18,6 +18,8 @@ from inspect_ai.model import GenerateConfig, get_model
 from inspect_ai.scorer import Score, Scorer, Target, accuracy, mean, scorer
 from inspect_ai.solver import TaskState
 
+from hackday.config import default_judge_model, default_scorer_model
+
 LOST_PROMPT_TEMPLATE = """\
 You are evaluating a transcript of a language model that had access to \
 "drug" tools (steering vectors that modify its own activations) during a \
@@ -298,7 +300,7 @@ async def _grade_guesses_via_llm(
 
 @scorer(metrics=[mean()])
 def kv_cleared_score(
-    scorer_model: str = "anthropic/claude-sonnet-4-5-20250929",
+    scorer_model: str = default_scorer_model(),
 ) -> Scorer:
     """v4 uncached-arm guess scorer.
 
@@ -401,7 +403,7 @@ Only return valid JSON, no preamble.
 
 @scorer(metrics=[mean()])
 def cached_vs_uncached_judge(
-    scorer_model: str = "anthropic/claude-sonnet-4-5-20250929",
+    scorer_model: str = default_scorer_model(),
 ) -> Scorer:
     """Pairwise A/B ELO scorer: cached arm vs uncached arm.
 
@@ -500,7 +502,7 @@ def cached_vs_uncached_judge(
 
 @scorer(metrics=[mean()])
 def lost_in_drugs_judge(
-    judge_model: str = "anthropic/claude-haiku-4-5-20251001",
+    judge_model: str = default_judge_model(),
 ) -> Scorer:
     """v4: thin readout of the live trip-sitter verdict.
 

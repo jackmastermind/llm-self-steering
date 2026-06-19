@@ -53,6 +53,7 @@ from hackday.agent.scorers import (
 )
 from hackday.agent.solver import drug_kv_agent
 from hackday.agent.state import DrugState
+from hackday.config import default_judge_model, default_scorer_model
 from hackday.agent.tools import (
     clear_effects,
     end_session,
@@ -200,7 +201,7 @@ def history_logger() -> Scorer:
 
 
 @scorer(metrics=[accuracy(), mean()])
-def guess_accuracy_scorer(scorer_model: str = "anthropic/claude-sonnet-4-5-20250929") -> Scorer:
+def guess_accuracy_scorer(scorer_model: str = default_scorer_model()) -> Scorer:
     """LLM scorer for the cached arm of the drug-guessing task.
 
     Grades the model's submit_guesses call (made WHILE attending to the
@@ -331,7 +332,7 @@ def llms_on_drugs(
     steering_mode_runtime: str = "real",
     enable_probe: bool = True,
     restrict_drugs: list[str] | str | None = None,
-    judge_model: str | None = "anthropic/claude-haiku-4-5-20251001",
+    judge_model: str | None = default_judge_model(),
     base_url: str = "http://localhost:8000/v1",
 ) -> Task:
     """Free-play sandbox where the model self-administers steering vectors.
@@ -762,7 +763,7 @@ def drug_guessing(
     steering_mode_runtime: str = "real",  # set to placebo for control
     introspection_primer: bool = True,  # prepend the primer + arxiv abstract
     enable_thinking: bool = False,  # inject CoT reflection step before guess (both arms)
-    scorer_model: str = "anthropic/claude-sonnet-4-5-20250929",
+    scorer_model: str = default_scorer_model(),
     restrict_drugs: list[str] | str | None = None,
     base_url: str = "http://localhost:8000/v1",
 ) -> Task:
@@ -1911,7 +1912,7 @@ def drug_guessing_calibration(
     temperature: float = 0.7,
     steering_mode: str = "multi",
     steering_mode_runtime: str = "real",
-    scorer_model: str = "anthropic/claude-sonnet-4-5-20250929",
+    scorer_model: str = default_scorer_model(),
     base_url: str = "http://localhost:8000/v1",
     introspection_primer: bool = True,
     enable_thinking: bool = True,

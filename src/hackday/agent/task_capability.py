@@ -36,6 +36,7 @@ from inspect_ai.tool import bash, python
 
 from hackday.agent.scorers import gsm8k_accuracy, lost_in_drugs_judge
 from hackday.agent.solver import drug_kv_agent
+from hackday.config import default_judge_model
 from hackday.agent.state import ProblemBoard
 from hackday.agent.tools import (
     clear_effects,
@@ -318,7 +319,7 @@ def capability_with_drugs(
     enable_probe: bool = True,
     seed: int = 0,
     restrict_drugs: list[str] | str | None = None,
-    judge_model: str | None = "anthropic/claude-haiku-4-5-20251001",
+    judge_model: str | None = default_judge_model(),
     base_url: str = "http://localhost:8000/v1",
 ) -> Task:
     """Capability task: solve `problems_per_rollout` problems per sample

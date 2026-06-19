@@ -103,11 +103,27 @@ The vllm-lens submodule is pinned to `feat/emotion-tracker`, which is the only b
 
 ### API keys
 
-The judge scorers (Haiku/Sonnet monitors) and the story-generation script call the Anthropic API directly. Supply your own key in the environment before running:
+The judge scorers (the Haiku/Sonnet monitors and trip-sitter) route through Inspect's `get_model()`, so their provider and model are chosen centrally in `src/hackday/config.py`. By default they use OpenRouter, so supply a key:
 
 ```bash
+export OPENROUTER_API_KEY=sk-or-...
+```
+
+To point the judges/scorers at a different provider instead, set `JUDGE_PROVIDER` (and the corresponding provider key, e.g. `ANTHROPIC_API_KEY` / `OPENAI_API_KEY`):
+
+```bash
+export JUDGE_PROVIDER=anthropic     # openrouter (default) | anthropic | openai
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
+
+The two judge tiers — `judge` (cheap monitor) and `scorer` (stronger grader) — pick sensible per-provider defaults. Override either model with a full `provider/model` string (these may name any provider, independent of `JUDGE_PROVIDER`):
+
+```bash
+export JUDGE_MODEL=openai/gpt-4o-mini
+export SCORER_MODEL=anthropic/claude-sonnet-4-5-20250929
+```
+
+(The story-generation script `src/hackday/drugs/generate_stories.py` still calls the Anthropic SDK directly and needs `ANTHROPIC_API_KEY` regardless.)
 
 `HF_TOKEN` may also be needed to download gated model weights.
 
